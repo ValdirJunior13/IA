@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
 
-# Suponha que 'caminhos' seja a lista de nós no caminho, por exemplo: [0, 3, 4, 7, 8]
+def calcular_caminho(inicio):
+  return [0, 3, 4, 7, 8]
+
 caminhos = calcular_caminho(0)
 
 # Crie uma matriz 3x3 preenchida com zeros
