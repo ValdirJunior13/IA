@@ -1,38 +1,58 @@
-import re
-import random
+
 from nltk.chat.util import Chat, reflections
 
-class FociChatbot(Chat):
-    def __init__(self):
-        super().__init__([], reflections)
+# Perguntas e respostas
+pairs = [
+    [
+        r"Por que não consigo acessar o site da (.*)?",
+        ["O site pode estar em manutenção", "Talvez o site esteja fora do ar"]
+    ],
+    [
+        r"Onde posso encontrar as notas de (.*)?",
+        ["No site do Sigaa, na aba de ensino", "No site do Siga"]
+    ],
+    [
+        r"Onde encontro o MC geral do curso de (.*)?",
+        ["Na aba de ensino do SIGAA",  "No site da UFRPE"]
+    ],
+    [
+        r"adeus",
+        ["Até logo! Espero ter sido útil para você.",
+            "Obrigado por falar comigo.", "Muito obrigado. Tenha um ótimo dia!"]
+    ],
+    [
+        r"(.*)",
+        ["Por favor, me conte mais.", "Você pode falar mais sobre?", "Tirou 0 em circuitoskkkkkkk.",
+            "Tô em Serra", "Testinho acabou com o ome", " O que é o J?"]
 
-    def add(self, input, output):
-        if isinstance(output, str):
-            o = [output]
-        else:
-            o = output
-        self._pairs.append((re.compile(input, re.IGNORECASE), o))
+    ],
 
-def add_response(input, output):
-    f.add(input, output)
+]
 
-def converse():
-    f.converse()
+# entrada de dados do usuario
+def process_input(user_input):
+    return user_input.lower()
 
-def respond(input):
-    print(f.respond(input))
+# Gerar Respostas
+def generate_response(user_input):
+    for pattern, responses in pairs:
+        match = nltk.matching.regexp.match(pattern, user_input)
+        if match is not None:
+            response = nltk.chat.util.reflections.random_response(responses)
+            return response
 
-def reset():
-    global f
-    f = FociChatbot()
 
-f = FociChatbot()
+baldr_chatbot = Chat(pairs, reflections)
 
-# Adicione todas as respostas antes de iniciar a conversa
-add_response('Olá', 'Olá, como vai?')
-add_response("Estou bem e você?", 'também estou bem')
-add_response("Se é você que vai pagar", 'Eu tô dentro')
-add_response('Eu gosto de (.*)', 'o que você gosta sobre ele?')
-print("Digite quit para sair")
-# Inicie a conversa depois de adicionar todas as respostas
-converse()
+
+def baldr_chat():
+    print("Olá, como posso te ajudar?")
+    baldr_chatbot.converse()
+
+
+def demo():
+    baldr_chat()
+
+
+if __name__ == "__main__":
+    demo()
